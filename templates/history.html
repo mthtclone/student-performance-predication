@@ -1,44 +1,83 @@
 <!doctype html>
-<html>
+<html lang="en">
     <head>
-        <title>Prediction History</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Prediction History — Student Performance Predictor</title>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+            rel="stylesheet"
+        />
 
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
     </head>
 
     <body>
+        <nav class="top-nav">
+            <a href="{{ url_for('home') }}">Back to predictor</a>
+        </nav>
+
         <header>
+            <p class="kicker">Model records</p>
             <h1>Prediction History</h1>
+            <p class="subtitle">Every prediction made through the form, most recent first</p>
         </header>
 
-        <div class="container">
-            <div class="card">
-                <table>
-                    <tr>
-                        <th>Study Hours</th>
-
-                        <th>Attendance</th>
-
-                        <th>Assignment</th>
-
-                        <th>Previous</th>
-
-                        <th>Grade</th>
-                    </tr>
-
-                    <tr>
-                        <td>5</td>
-
-                        <td>90%</td>
-
-                        <td>85</td>
-
-                        <td>80</td>
-
-                        <td>A</td>
-                    </tr>
-                </table>
+        <div class="history-meta">
+            <div>
+                <strong>{{ model_metadata.model_name }}</strong>
+                model in use
+            </div>
+            <div>
+                <strong>{{ (model_metadata.accuracy * 100) | round(1) }}%</strong>
+                test accuracy
+            </div>
+            <div>
+                <strong>{{ rows | length }}</strong>
+                predictions logged
             </div>
         </div>
+
+        {% if rows %}
+        <div class="history-table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Timestamp</th>
+                        <th>Study hours</th>
+                        <th>Attendance</th>
+                        <th>Assignment score</th>
+                        <th>Previous score</th>
+                        <th>Predicted grade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row in rows %}
+                    <tr>
+                        <td>{{ row.timestamp }}</td>
+                        <td>{{ row.study_hours }}</td>
+                        <td>{{ row.attendance }}</td>
+                        <td>{{ row.assignment_score }}</td>
+                        <td>{{ row.previous_score }}</td>
+                        <td>
+                            <span class="grade-pill band-{{ row.predicted_grade | lower }}">
+                                {{ row.predicted_grade }}
+                            </span>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div class="history-table-wrap empty-history">
+            <p>No predictions yet. Head back to the predictor and try a student record.</p>
+        </div>
+        {% endif %}
+
+        <script src="{{ url_for('static', filename='js/script.js') }}"></script>
     </body>
 </html>

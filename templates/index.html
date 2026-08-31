@@ -1,50 +1,79 @@
 <!doctype html>
-<html>
+<html lang="en">
     <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Student Performance Predictor</title>
+
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+            rel="stylesheet"
+        />
 
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
     </head>
 
     <body>
+        <nav class="top-nav">
+            <a href="{{ url_for('history') }}">View prediction history</a>
+        </nav>
+
         <header>
+            <p class="kicker">Grade forecasting</p>
             <h1>Student Performance Prediction</h1>
-            <p>Predict student grades using machine learning</p>
+            <p class="subtitle">Enter a student's record to forecast their grade</p>
         </header>
 
-        <div class="container">
-            <div class="card">
-                <h2>Enter Student Details</h2>
+        <main class="container">
+            <section class="card record-card">
+                <h2>Student Record</h2>
 
                 <form>
-                    <label> Study Hours </label>
+                    <label for="study-hours">Study hours <span>per day</span></label>
+                    <input id="study-hours" name="study_hours" type="number" placeholder="5" />
 
-                    <input type="number" placeholder="Example: 5" />
+                    <label for="attendance">Attendance <span>percent</span></label>
+                    <input id="attendance" name="attendance" type="number" placeholder="90" />
 
-                    <label> Attendance (%) </label>
+                    <label for="assignment-score">Assignment score <span>out of 100</span></label>
+                    <input
+                        id="assignment-score"
+                        name="assignment_score"
+                        type="number"
+                        placeholder="85"
+                    />
 
-                    <input type="number" placeholder="Example: 90" />
+                    <label for="previous-score">Previous score <span>out of 100</span></label>
+                    <input
+                        id="previous-score"
+                        name="previous_score"
+                        type="number"
+                        placeholder="80"
+                    />
 
-                    <label> Assignment Score </label>
-
-                    <input type="number" placeholder="Example: 85" />
-
-                    <label> Previous Score </label>
-
-                    <input type="number" placeholder="Example: 80" />
-
-                    <button>Predict Grade</button>
+                    <button type="submit">Predict grade</button>
                 </form>
-            </div>
+            </section>
 
-            <div class="card result">
-                <h2>Prediction Result</h2>
+            <section class="card result-card">
+                <h2>Prediction</h2>
 
-                <div class="prediction">A</div>
+                <div class="stamp">
+                    <div class="prediction">A</div>
+                    <p class="prediction-label">Predicted grade</p>
+                </div>
 
-                <p>Predicted Grade</p>
-            </div>
-        </div>
+                <div class="grade-scale" aria-hidden="true">
+                    <span class="band band-a">A</span>
+                    <span class="band band-b">B</span>
+                    <span class="band band-c">C</span>
+                    <span class="band band-d">D</span>
+                    <span class="band band-f">F</span>
+                </div>
+            </section>
+        </main>
 
         <script src="{{ url_for('static', filename='js/script.js') }}"></script>
     </body>
