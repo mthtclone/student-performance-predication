@@ -36,16 +36,51 @@
 
                 <form id="predict-form">
                     <label for="study-hours">Study hours <span>per day</span></label>
-                    <input id="study-hours" name="study_hours" type="number" step="0.1" min="0" placeholder="5" required />
+                    <input
+                        id="study-hours"
+                        name="study_hours"
+                        type="number"
+                        step="0.1"
+                        min="0"
+                        placeholder="5"
+                        required
+                    />
 
                     <label for="attendance">Attendance <span>percent</span></label>
-                    <input id="attendance" name="attendance" type="number" step="1" min="0" max="100" placeholder="90" required />
+                    <input
+                        id="attendance"
+                        name="attendance"
+                        type="number"
+                        step="1"
+                        min="0"
+                        max="100"
+                        placeholder="90"
+                        required
+                    />
 
                     <label for="assignment-score">Assignment score <span>out of 100</span></label>
-                    <input id="assignment-score" name="assignment_score" type="number" step="1" min="0" max="100" placeholder="85" required />
+                    <input
+                        id="assignment-score"
+                        name="assignment_score"
+                        type="number"
+                        step="1"
+                        min="0"
+                        max="100"
+                        placeholder="85"
+                        required
+                    />
 
                     <label for="previous-score">Previous score <span>out of 100</span></label>
-                    <input id="previous-score" name="previous_score" type="number" step="1" min="0" max="100" placeholder="80" required />
+                    <input
+                        id="previous-score"
+                        name="previous_score"
+                        type="number"
+                        step="1"
+                        min="0"
+                        max="100"
+                        placeholder="80"
+                        required
+                    />
 
                     <button type="submit">Predict grade</button>
                     <p id="form-error" class="form-error" hidden></p>
@@ -57,7 +92,9 @@
 
                 <div class="stamp">
                     <div id="prediction" class="prediction">&mdash;</div>
-                    <p id="prediction-label" class="prediction-label">Fill in the form to see a prediction</p>
+                    <p id="prediction-label" class="prediction-label">
+                        Fill in the form to see a prediction
+                    </p>
                 </div>
 
                 <div class="grade-scale" aria-hidden="true">

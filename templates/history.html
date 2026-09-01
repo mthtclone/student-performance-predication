@@ -50,14 +50,22 @@
                             <td>{{ row.attendance }}</td>
                             <td>{{ row.assignment_score }}</td>
                             <td>{{ row.previous_score }}</td>
-                            <td class="grade-cell grade-{{ row.predicted_grade|lower }}">{{ row.predicted_grade }}</td>
-                            <td class="{{ 'result-pass' if row.result == 'Pass' else 'result-fail' }}">{{ row.result }}</td>
+                            <td class="grade-cell grade-{{ row.predicted_grade|lower }}">
+                                {{ row.predicted_grade }}
+                            </td>
+                            <td
+                                class="{{ 'result-pass' if row.result == 'Pass' else 'result-fail' }}"
+                            >
+                                {{ row.result }}
+                            </td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
                 {% else %}
-                <p class="empty-state">No predictions yet. Make one from the predictor page and it'll show up here.</p>
+                <p class="empty-state">
+                    No predictions yet. Make one from the predictor page and it'll show up here.
+                </p>
                 {% endif %}
             </section>
         </main>

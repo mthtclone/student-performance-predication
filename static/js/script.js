@@ -1,15 +1,15 @@
-const form = document.getElementById("predict-form");
-const errorEl = document.getElementById("form-error");
-const predictionEl = document.getElementById("prediction");
-const predictionLabelEl = document.getElementById("prediction-label");
-const bandEls = document.querySelectorAll(".band");
-const submitButton = form.querySelector("button");
+const form = document.getElementById('predict-form');
+const errorEl = document.getElementById('form-error');
+const predictionEl = document.getElementById('prediction');
+const predictionLabelEl = document.getElementById('prediction-label');
+const bandEls = document.querySelectorAll('.band');
+const submitButton = form.querySelector('button');
 
-const GRADE_CLASSES = ["grade-a", "grade-b", "grade-c", "grade-d", "grade-f"];
+const GRADE_CLASSES = ['grade-a', 'grade-b', 'grade-c', 'grade-d', 'grade-f'];
 
 function setActiveBand(grade) {
     bandEls.forEach((band) => {
-        band.classList.toggle("is-active", band.dataset.grade === grade);
+        band.classList.toggle('is-active', band.dataset.grade === grade);
     });
 }
 
@@ -20,10 +20,10 @@ function showError(message) {
 
 function clearError() {
     errorEl.hidden = true;
-    errorEl.textContent = "";
+    errorEl.textContent = '';
 }
 
-form.addEventListener("submit", async (event) => {
+form.addEventListener('submit', async (event) => {
     event.preventDefault();
     clearError();
 
@@ -35,19 +35,19 @@ form.addEventListener("submit", async (event) => {
     };
 
     submitButton.disabled = true;
-    submitButton.textContent = "Predicting...";
+    submitButton.textContent = 'Predicting...';
 
     try {
-        const response = await fetch("/predict", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
+        const response = await fetch('/predict', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload),
         });
 
         const data = await response.json();
 
         if (!response.ok) {
-            showError(data.error || "Something went wrong. Please try again.");
+            showError(data.error || 'Something went wrong. Please try again.');
             return;
         }
 
@@ -60,6 +60,6 @@ form.addEventListener("submit", async (event) => {
         showError("Couldn't reach the server. Please try again.");
     } finally {
         submitButton.disabled = false;
-        submitButton.textContent = "Predict grade";
+        submitButton.textContent = 'Predict grade';
     }
 });

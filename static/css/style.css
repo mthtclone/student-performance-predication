@@ -13,9 +13,9 @@
     --grade-d: #c06a2c;
     --grade-f: #b23a3a;
 
-    --font-display: "Fraunces", serif;
-    --font-body: "IBM Plex Sans", sans-serif;
-    --font-mono: "IBM Plex Mono", monospace;
+    --font-display: 'Fraunces', serif;
+    --font-body: 'IBM Plex Sans', sans-serif;
+    --font-mono: 'IBM Plex Mono', monospace;
 }
 
 * {
@@ -56,7 +56,9 @@ header {
     border-radius: 8px;
     padding: 9px 16px;
     white-space: nowrap;
-    transition: border-color 0.15s ease, background 0.15s ease;
+    transition:
+        border-color 0.15s ease,
+        background 0.15s ease;
 }
 
 .history-link:hover {
@@ -120,13 +122,7 @@ header .subtitle {
 .record-card {
     border-radius: 4px 14px 14px 4px;
     border-left: 4px solid var(--ledger-green);
-    clip-path: polygon(
-        24px 0,
-        100% 0,
-        100% 100%,
-        0 100%,
-        0 24px
-    );
+    clip-path: polygon(24px 0, 100% 0, 100% 100%, 0 100%, 0 24px);
 }
 
 label {
@@ -236,11 +232,21 @@ button[disabled] {
     transition: color 0.15s ease;
 }
 
-.prediction.grade-a { color: var(--grade-a); }
-.prediction.grade-b { color: var(--grade-b); }
-.prediction.grade-c { color: var(--grade-c); }
-.prediction.grade-d { color: var(--grade-d); }
-.prediction.grade-f { color: var(--grade-f); }
+.prediction.grade-a {
+    color: var(--grade-a);
+}
+.prediction.grade-b {
+    color: var(--grade-b);
+}
+.prediction.grade-c {
+    color: var(--grade-c);
+}
+.prediction.grade-d {
+    color: var(--grade-d);
+}
+.prediction.grade-f {
+    color: var(--grade-f);
+}
 
 .prediction-label {
     margin: 10px 0 0;
@@ -268,11 +274,21 @@ button[disabled] {
     opacity: 0.35;
 }
 
-.band-a { background: var(--grade-a); }
-.band-b { background: var(--grade-b); }
-.band-c { background: var(--grade-c); }
-.band-d { background: var(--grade-d); }
-.band-f { background: var(--grade-f); }
+.band-a {
+    background: var(--grade-a);
+}
+.band-b {
+    background: var(--grade-b);
+}
+.band-c {
+    background: var(--grade-c);
+}
+.band-d {
+    background: var(--grade-d);
+}
+.band-f {
+    background: var(--grade-f);
+}
 
 .band.is-active {
     opacity: 1;
@@ -312,11 +328,21 @@ th {
     font-weight: 600;
 }
 
-.grade-cell.grade-a { color: var(--grade-a); }
-.grade-cell.grade-b { color: var(--grade-b); }
-.grade-cell.grade-c { color: var(--grade-c); }
-.grade-cell.grade-d { color: var(--grade-d); }
-.grade-cell.grade-f { color: var(--grade-f); }
+.grade-cell.grade-a {
+    color: var(--grade-a);
+}
+.grade-cell.grade-b {
+    color: var(--grade-b);
+}
+.grade-cell.grade-c {
+    color: var(--grade-c);
+}
+.grade-cell.grade-d {
+    color: var(--grade-d);
+}
+.grade-cell.grade-f {
+    color: var(--grade-f);
+}
 
 .result-pass {
     color: var(--grade-a);
