@@ -1,8 +1,22 @@
+"""
+Generates a synthetic student performance dataset.
+
+There's no real dataset provided for this project, so this script creates
+a plausible one: four input features (study hours, attendance, assignment
+score, previous score) combine into a weighted score, which is then noised
+and binned into a Grade (A-F). Result (Pass/Fail) is derived from Grade.
+
+Run:
+    python data/generate_dataset.py
+Produces:
+    data/student_data.csv
+"""
+
 import numpy as np
 import pandas as pd
 
-RANDOM_SEED = 42
-N_STUDENTS = 600
+RNG_SEED = 42
+N_STUDENTS = 1200
 
 
 def grade_from_score(score: float) -> str:
@@ -17,49 +31,46 @@ def grade_from_score(score: float) -> str:
     return "F"
 
 
-def generate_dataset(n_students: int = N_STUDENTS, seed: int = RANDOM_SEED) -> pd.DataFrame:
-    rng = np.random.default_rng(seed)
+def main() -> None:
+    rng = np.random.default_rng(RNG_SEED)
 
-    study_hours = rng.normal(loc=5.5, scale=2.2, size=n_students).clip(0, 12)
-    attendance = rng.normal(loc=85, scale=11, size=n_students).clip(30, 100)
-    assignment_score = rng.normal(loc=78, scale=14, size=n_students).clip(0, 100)
-    previous_score = rng.normal(loc=76, scale=14, size=n_students).clip(0, 100)
+    study_hours = np.clip(rng.normal(4.5, 2.0, N_STUDENTS), 0, 12).round(1)
+    attendance = np.clip(rng.normal(80, 12, N_STUDENTS), 30, 100).round(0)
+    assignment_score = np.clip(rng.normal(72, 15, N_STUDENTS), 0, 100).round(0)
+    previous_score = np.clip(rng.normal(70, 15, N_STUDENTS), 0, 100).round(0)
 
-    # Weighted composite: previous performance and assignments matter most,
-    # attendance and study hours give a smaller but real boost.
+    # Weighted composite with noise - this is what actually drives the grade.
+    # Each feature is normalised to a 0-100 scale first, then blended, so the
+    # weights below are genuine importances rather than arbitrary magnitudes.
+    study_pct = np.clip(study_hours / 10 * 100, 0, 100)
     composite = (
-        study_hours * 3.2
-        + attendance * 0.35
-        + assignment_score * 0.30
-        + previous_score * 0.30
+        study_pct * 0.35
+        + attendance * 0.25
+        + assignment_score * 0.20
+        + previous_score * 0.20
     )
-    noise = rng.normal(loc=0, scale=1.5, size=n_students)
-    composite = composite + noise
+    composite += rng.normal(0, 6, N_STUDENTS)
+    composite = np.clip(composite, 0, 100)
 
-    # Standardize then remap onto a 0-100 band centered at 65 with a spread of 15,
-    # so grade thresholds (40/55/70/85) produce a realistic bell-shaped mix of
-    # grades instead of a flat min-max stretch (which crowded everyone into C/D).
-    composite_z = (composite - composite.mean()) / composite.std()
-    composite = (65 + composite_z * 15).clip(0, 100)
-
-    grades = [grade_from_score(s) for s in composite]
-    results = ["Pass" if g != "F" else "Fail" for g in grades]
+    grades = np.array([grade_from_score(s) for s in composite])
+    result = np.where(np.isin(grades, ["A", "B", "C", "D"]), "Pass", "Fail")
 
     df = pd.DataFrame(
         {
-            "study_hours": study_hours.round(1),
-            "attendance": attendance.round(1),
-            "assignment_score": assignment_score.round(1),
-            "previous_score": previous_score.round(1),
+            "study_hours": study_hours,
+            "attendance": attendance,
+            "assignment_score": assignment_score,
+            "previous_score": previous_score,
             "grade": grades,
-            "result": results,
+            "result": result,
         }
     )
-    return df
+
+    out_path = "data/student_data.csv"
+    df.to_csv(out_path, index=False)
+    print(f"Wrote {len(df)} rows to {out_path}")
+    print(df["grade"].value_counts())
 
 
 if __name__ == "__main__":
-    dataset = generate_dataset()
-    dataset.to_csv("data/students.csv", index=False)
-    print(f"Wrote data/students.csv with {len(dataset)} rows")
-    print(dataset["grade"].value_counts().sort_index())
+    main()
