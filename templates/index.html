@@ -19,15 +19,11 @@
         <header>
             <div class="header-row">
                 <div>
-                    <p class="kicker">Grade forecasting</p>
                     <h1>Student Performance Prediction</h1>
                     <p class="subtitle">Enter a student's record to forecast their grade</p>
                 </div>
                 <a class="history-link" href="{{ url_for('history') }}">View prediction history</a>
             </div>
-            <p class="model-note">
-                Model: {{ model_name }} &middot; Test accuracy {{ "%.0f"|format(accuracy * 100) }}%
-            </p>
         </header>
 
         <main class="container">
